@@ -19,7 +19,7 @@ func main() {
 	httpClient := http.NewClient().DialTimeout(20 * time.Second)
 	
 	//此处通过http请求获取到简书首页的文本html
-	body, err := searchlJianShuHome(httpClient)
+	body, err := searchJianShuHome(httpClient)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +37,7 @@ func main() {
 	}
 }
 
-func searchlJianShuHome(httpClient *http.Client) (body string, err error) {
+func searchJianShuHome(httpClient *http.Client) (body string, err error) {
 	resp, hcerr := http.NewRequest(http.MethodGet,
 		`https://www.jianshu.com/`).
 		SetHeader(`Accept`, `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8`).
