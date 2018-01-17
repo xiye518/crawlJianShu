@@ -33,7 +33,8 @@ func main() {
 	}
 	
 	for i, a := range arts {
-		color.LogAndPrintln(i, color.HiGreen(a.Title), "https://www.jianshu.com"+a.Url,a.Abstract)
+		//color.LogAndPrintln(i, color.HiGreen(a.Title), "https://www.jianshu.com"+a.Url,a.Abstract)
+		a.String(i)
 	}
 }
 
@@ -88,4 +89,8 @@ type Article struct {
 	Watched    string //已阅
 	Comment    string //点评数
 	Collection string //收藏数
+}
+
+func (a *Article) String(i int){
+	color.LogAndPrintln(i, color.HiGreen(a.Title), "https://www.jianshu.com"+a.Url,a.Abstract)
 }
