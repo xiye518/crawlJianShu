@@ -18,14 +18,16 @@ func main() {
 	color.LogAndPrintln(color.HiCyan("this is a crawlJianshu test\n"))
 	httpClient := http.NewClient().DialTimeout(20 * time.Second)
 	
-	body, err := crawlJianShu(httpClient)
+	//此处通过http请求获取到简书首页的文本html
+	body, err := searchlJianShuHome(httpClient)
 	if err != nil {
 		log.Fatal(err)
 	}
 	
 	//color.LogAndPrintln(color.HiGreen(body))
 	//ToDo  也可以用ioutil将文本写出
-	arts, err := getTitle(body)
+	//此处为使用正则从文本中切取想要的内容
+	arts, err := getArticles(body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +37,7 @@ func main() {
 	}
 }
 
-func crawlJianShu(httpClient *http.Client) (body string, err error) {
+func searchlJianShuHome(httpClient *http.Client) (body string, err error) {
 	resp, hcerr := http.NewRequest(http.MethodGet,
 		`https://www.jianshu.com/`).
 		SetHeader(`Accept`, `text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8`).
@@ -62,11 +64,11 @@ func crawlJianShu(httpClient *http.Client) (body string, err error) {
 	return body, nil
 }
 
-func getTitle(body string) (arts []*Article, err error) {
+func getArticles(body string) (arts []*Article, err error) {
 	arts = make([]*Article, 0)
 	//reg:=regexp.MustCompile(`(?s)<a class="title" target="_blank" href="(.+?)">(.+?)</a>`)
 	reg := regexp.MustCompile(`(?s)<a class="title" target="_blank" href="(.+?)">(.+?)</a>\s*<p class="abstract">\s*(.+?)</p>`)
-	result := reg.FindAllStringSubmatch(body, -1) //	/p/6603d0ad230f	大脑版本升级：练习三个思维模型，一下午就能让你聪明起来  描述...
+	result := reg.FindAllStringSubmatch(body, -1) //...		/p/6603d0ad230f	大脑版本升级：练习三个思维模型，一下午就能让你聪明起来  描述...
 	for _, r := range result {
 		var a Article
 		a.Url = r[1]
