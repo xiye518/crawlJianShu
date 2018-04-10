@@ -15,9 +15,9 @@ func main() {
 	for a < 2.00 {
 		count++
 		a *= b
-		fmt.Println(b,a)
+		fmt.Println(b, a)
 	}
-	
+
 	color.Println(color.HiCyan("\nGet A little bit of progress everyday,how many days will it take to double:"), color.HiGreen(count)) //70
 	//fmt.Println("\nGet A little bit of progress everyday,how many days will it take to double:", count) //70
 }
